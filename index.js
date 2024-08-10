@@ -80,6 +80,10 @@ function playRound (rounds){
         computerScore++;
         console.log("You lose! Scissors beats Paper.");
     }
+    else {
+        computerScore++;
+        console.log("You did not pick. A score has been given for the computer.");
+    }
 
     console.log("\nComputer Score = " + computerScore + "\nHuman Score = " + humanScore + "\n");
 
