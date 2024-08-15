@@ -1,0 +1,21 @@
+body {
+    font-family: Roboto, sans-serif;
+}
+
+.container {
+    /* Center Div */
+    margin: auto;
+    width: 50%;
+    padding: 30px;
+    margin-top: 50px;
+
+    /* Flex Content */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#game, #score {
+    text-align: center;
+}

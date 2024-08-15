@@ -4,111 +4,170 @@ function getComputerChoice(min, max){
     const maxFloored = Math.floor(max);
     const choice = Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled);
 
-    return choices(choice);
-}
-
-function getHumanChoice () {
-    let choice = prompt("1 = Rock, 2 = Paper or 3 = Scissors?: ");
-
-    return choices(choice);
-}
-
-function choices(choice) {
-
-    if (choice == 1) {
-        return "Rock";
-    }
-    else if (choice == 2) {
-        return "Paper";
-    }
-    else if (choice == 3) {
-        return "Scissors";
-    }
-    else {
-        return "Does Not Exist";
+    switch (choice) {
+        case 1:
+            return "Rock";
+        case 2:
+            return "Paper";
+        case 3:
+            return "Scissors";
     }
 }
 
-function playRound (rounds){
+
+function playGame (pick){
 
     let computerChoice = getComputerChoice(1, 4);
-    let humanChoice = getHumanChoice();
-    
-    console.log("\n\nRound " + (rounds + 1));
-    console.log("Computer picks - " + computerChoice);
-    console.log("Human picks - " + humanChoice);
+    let humanChoice = pick.target.textContent;
 
     // Rock vs Rock
     if (computerChoice == "Rock" && humanChoice == "Rock"){
-        console.log("Draw! You both pick Rocks.");
+        response.innerHTML = "<br>Draw!<br><br>You both pick Rocks.<br>";
     }
     // Paper vs Paper
     else if (computerChoice == "Paper" && humanChoice == "Paper"){
-        console.log("Draw! You both pick Papers.");
+        response.innerHTML = "<br>Draw!<br><br>You both pick Papers.<br>";
     }
     // Scissors vs Scissors
     else if (computerChoice == "Scissors" && humanChoice == "Scissors"){
-        console.log("Draw! You both pick Scissors.");
+        response.innerHTML = "<br>Draw!<br><br>You both pick Scissors.<br>";
     }
     // computer Rock vs human Paper
     else if (computerChoice == "Rock" && humanChoice == "Paper"){
         humanScore++;
-        console.log("You win! Paper beats Rock.");
+        response.innerHTML = "<br>You win!<br><br>Paper beats Rock.<br>";
     }
     // computer Rock vs human Scissors
     else if (computerChoice == "Rock" && humanChoice == "Scissors"){
         computerScore++;
-        console.log("You lose! Rock beats Scissors.");
+        response.innerHTML = "<br>You lose!<br><br>Rock beats Scissors.<br>";
     }
     // computer Paper vs human Rock
     else if (computerChoice == "Paper" && humanChoice == "Rock"){
         computerScore++;
-        console.log("You lose! Paper beats Rock.");
+        response.innerHTML = "<br>You lose!<br><br>Paper beats Rock.<br>";
     }
     // computer Paper vs human Scissors
     else if (computerChoice == "Paper" && humanChoice == "Scissors"){
         humanScore++;
-        console.log("You win! Scissors beats Paper.");
+        response.innerHTML = "<br>You win!<br><br>Scissors beats Paper.<br>";
     }
     // computer Scissors vs human Rock
     else if (computerChoice == "Scissors" && humanChoice == "Rock"){
         humanScore++;
-        console.log("You win! Rock beats Scissors.");
+        response.innerHTML = "<br>You win!<br><br>Rock beats Scissors.<br>";
     }
     // computer Scissors vs human Paper
     else if (computerChoice == "Scissors" && humanChoice == "Paper"){
         computerScore++;
-        console.log("You lose! Scissors beats Paper.");
-    }
-    else {
-        computerScore++;
-        console.log("You did not pick. A score has been given for the computer.");
+        response.innerHTML = "<br>You lose!<br><br>Scissors beats Paper.<br>";
     }
 
-    console.log("\nComputer Score = " + computerScore + "\nHuman Score = " + humanScore + "\n");
+    compScore.textContent = computerScore;
+    humScore.textContent = humanScore;
 
+    if (humanScore === 5) {
+        resultMessage.textContent = "Human WINS!";
+
+        rock.setAttribute("disabled", "disabled");
+        paper.setAttribute("disabled", "disabled");
+        scissors.setAttribute("disabled", "disabled");
+
+        again.appendChild(playAgain);
+    }
+    else if (computerScore === 5) {
+        resultMessage.textContent = "Computer WINS!";
+
+        rock.setAttribute("disabled", "disabled");
+        paper.setAttribute("disabled", "disabled");
+        scissors.setAttribute("disabled", "disabled");
+
+        again.appendChild(playAgain);
+    }
 }
 
-function playGame() {
-    console.log("Game Starts!");
-    
-    for (let x = 0; x < 5; x++){
-        playRound(x);
-    }
-    
-    if (computerScore > humanScore ){
-        console.log("Computer Wins!");
-    }
-    else if (computerScore < humanScore){
-        console.log("Human Wins!");
-    }
-    else {
-        console.log("Draw!")
-    }
 
+function playNewGame () {
+    location.reload();
 }
+
 
 let computerScore = 0;
 let humanScore = 0;
 
-playGame();
+// START GAME DIV
+const game = document.querySelector("#game");
+
+const rock = document.createElement("button");
+const paper = document.createElement("button");
+const scissors = document.createElement("button");
+const response = document.createElement("span");
+
+rock.textContent = "Rock";
+rock.style.padding = "5px 20px";
+rock.style.margin = "10px";
+
+paper.textContent = "Paper";
+paper.style.padding = "5px 20px";
+paper.style.margin = "10px";
+
+scissors.textContent = "Scissors";
+scissors.style.padding = "5px 10px";
+scissors.style.margin = "10px";
+
+game.appendChild(rock);
+game.appendChild(paper);
+game.appendChild(scissors);
+
+game.appendChild(response);
+// END GAME DIV
+
+
+// START SCORE
+const score = document.querySelector("#score");
+
+const scoreTitle = document.createElement("h3");
+const compScoreName = document.createElement("h4");
+const humScoreName = document.createElement("h4");
+
+scoreTitle.textContent = "Scores";
+compScoreName.textContent = "Computer: ";
+humScoreName.textContent = "Human: ";
+
+const compScore = document.createElement("span");
+const humScore = document.createElement("span");
+
+score.appendChild(scoreTitle);
+
+compScoreName.appendChild(compScore);
+humScoreName.appendChild(humScore);
+
+score.appendChild(compScoreName);
+score.appendChild(humScoreName);
+// END SCORE
+
+
+// START RESULT
+const result = document.querySelector("#result");
+const resultMessage = document.createElement("span");
+
+resultMessage.textContent = "";
+
+result.appendChild(resultMessage);
+// END RESULT
+
+
+// START PLAY AGAIN
+const again = document.querySelector("#play-again");
+
+const playAgain = document.createElement("button");
+
+playAgain.textContent = "Play Again?";
+playAgain.style.padding = "5px 10px";
+playAgain.style.margin = "10px";
+// END PLAY AGAIN
+
+rock.addEventListener("click", playGame);
+paper.addEventListener("click", playGame);
+scissors.addEventListener("click", playGame);
+playAgain.addEventListener("click", playNewGame);
